@@ -26,6 +26,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.first!
+        let center = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        let span = MKCoordinateSpan(latitudeDelta: 0.025,longitudeDelta: 0.025)
+        region = MKCoordinateRegion(center: center, span: span)
+        mapView.setRegion(region, animated: true)
+    }
 
 }
 

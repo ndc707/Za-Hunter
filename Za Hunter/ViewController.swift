@@ -26,7 +26,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.first!
         let center = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
@@ -48,8 +48,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
                     annotation.title = mapItem.name
                     self.mapView.addAnnotation(annotation)
                 }
+            }
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: "pin")
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pinView")
+            pinView?.canShowCallout = true
+            pinView?.rightCalloutAccessoryView = UIButton(type:.infoLight)
+        }
+        else {
+            pinView?.annotation = annotation
+        }
+           return pinView
     }
 }
 
-}
+
+

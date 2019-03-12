@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     let locationManager = CLLocationManager()
@@ -23,6 +23,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         mapView.showsUserLocation = true
         locationManager.delegate = self
         locationManager.startUpdatingLocation()
+        mapView.delegate = self
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -33,6 +34,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         region = MKCoordinateRegion(center: center, span: span)
         mapView.setRegion(region, animated: true)
     }
+    
 
 }
 

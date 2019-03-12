@@ -35,6 +35,21 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         mapView.setRegion(region, animated: true)
     }
     
-
+    func mapViewDidFinishLoadingMap() {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = "pizza"
+        request.region = region
+        let search = MKLocalSearch(request: request)
+        search.start {
+            (response, error) in if let response = response {
+                for mapItem in response.mapItems{
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = mapItem.placemark.coordinate
+                    annotation.title = mapItem.name
+                    self.mapView.addAnnotation(annotation)
+                }
+        }
+    }
 }
 
+}
